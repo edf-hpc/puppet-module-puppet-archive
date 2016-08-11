@@ -1,0 +1,5 @@
+puppet-module-puppet-archive (1.0.0-0calibre1~bpo8+1) calibre9; urgency=low
+
+  * Initial release
+
+ -- Cecile Yoshikawa <cecile.yoshikawa@edf.fr>  Thu, 11 Aug 2016 17:35:47 +0100
