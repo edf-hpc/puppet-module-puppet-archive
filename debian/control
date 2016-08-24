@@ -8,9 +8,9 @@ Homepage: https://forge.puppet.com/puppet/archive
 
 Package: puppet-module-puppet-archive
 Architecture: all
-Depends: ${misc:Depends},
-         puppet-common,
-         puppet-module-puppetlabs-stdlib (>= 4.2.0)
+Depends: puppet-common,
+         puppet-module-puppetlabs-stdlib (>= 4.2.0),
+         ${misc:Depends}
 Description: Puppet module archive
  Puppet lets you centrally manage every important aspect of your system
  using a cross-platform specification language that manages all the
