@@ -13,9 +13,9 @@ RSpec.describe curl_provider do
         'http://home.lan/example.zip',
         '-o',
         String,
-        '-fsSL',
+        '-L',
         '--max-redirs',
-        5
+        5,
       ]
     end
 
@@ -26,8 +26,8 @@ RSpec.describe curl_provider do
     context 'no extra properties specified' do
       let(:resource_properties) do
         {
-          name: name,
-          source: 'http://home.lan/example.zip'
+          :name => name,
+          :source => 'http://home.lan/example.zip'
         }
       end
 
@@ -40,9 +40,9 @@ RSpec.describe curl_provider do
     context 'username specified' do
       let(:resource_properties) do
         {
-          name: name,
-          source: 'http://home.lan/example.zip',
-          username: 'foo'
+          :name => name,
+          :source => 'http://home.lan/example.zip',
+          :username => 'foo',
         }
       end
 
@@ -55,10 +55,10 @@ RSpec.describe curl_provider do
     context 'username and password specified' do
       let(:resource_properties) do
         {
-          name: name,
-          source: 'http://home.lan/example.zip',
-          username: 'foo',
-          password: 'bar'
+          :name => name,
+          :source => 'http://home.lan/example.zip',
+          :username => 'foo',
+          :password => 'bar',
         }
       end
 
@@ -68,27 +68,12 @@ RSpec.describe curl_provider do
       end
     end
 
-    context 'allow_insecure true' do
-      let(:resource_properties) do
-        {
-          name: name,
-          source: 'http://home.lan/example.zip',
-          allow_insecure: true
-        }
-      end
-
-      it 'calls curl with default options and --insecure' do
-        expect(provider).to receive(:curl).with(default_options << '--insecure')
-        provider.download(name)
-      end
-    end
-
     context 'cookie specified' do
       let(:resource_properties) do
         {
-          name: name,
-          source: 'http://home.lan/example.zip',
-          cookie: 'foo=bar'
+          :name => name,
+          :source => 'http://home.lan/example.zip',
+          :cookie => 'foo=bar',
         }
       end
 
@@ -101,50 +86,15 @@ RSpec.describe curl_provider do
     context 'using proxy' do
       let(:resource_properties) do
         {
-          name: name,
-          source: 'http://home.lan/example.zip',
-          proxy_server: 'https://home.lan:8080'
+          :name => name,
+          :source => 'http://home.lan/example.zip',
+          :proxy_server => 'https://home.lan:8080'
         }
       end
 
       it 'calls curl with proxy' do
         expect(provider).to receive(:curl).with(default_options << '--proxy' << 'https://home.lan:8080')
         provider.download(name)
-      end
-    end
-
-    describe '#checksum' do
-      subject { provider.checksum }
-      let(:url) { nil }
-      let(:resource_properties) do
-        {
-          name: name,
-          source: 'http://home.lan/example.zip'
-        }
-      end
-
-      before(:each) do
-        resource[:checksum_url] = url if url
-      end
-
-      context 'with a url' do
-        let(:curl_params) do
-          [
-            'http://example.com/checksum',
-            '-fsSL',
-            '--max-redirs',
-            5
-          ]
-        end
-
-        let(:url) { 'http://example.com/checksum' }
-        context 'responds with hash' do
-          let(:remote_hash) { 'a0c38e1aeb175201b0dacd65e2f37e187657050a' }
-          it do
-            expect(provider).to receive(:curl).with(curl_params).and_return("a0c38e1aeb175201b0dacd65e2f37e187657050a README.md\n")
-            expect(provider.checksum).to eq('a0c38e1aeb175201b0dacd65e2f37e187657050a')
-          end
-        end
       end
     end
   end

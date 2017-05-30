@@ -1,13 +1,11 @@
 require 'digest'
 require 'puppet/util/execution'
-require 'shellwords'
 
 module PuppetX
   module Bodeco
     class Archive
       def initialize(file)
         @file = file
-        @file_path = Shellwords.shellescape file
       end
 
       def checksum(type)
@@ -29,26 +27,26 @@ module PuppetX
 
       def extract(path = root_dir, opts = {})
         opts = {
-          custom_command: nil,
-          options: '',
-          uid: nil,
-          gid: nil
+          :custom_command => nil,
+          :options => '',
+          :uid => nil,
+          :gid => nil,
         }.merge(opts)
 
         custom_command = opts.fetch(:custom_command, nil)
         options = opts.fetch(:options)
         Dir.chdir(path) do
-          cmd = if custom_command && custom_command =~ %r{%s}
-                  custom_command % @file_path
+          cmd = if custom_command && custom_command =~ /%s/
+                  custom_command % @file
                 elsif custom_command
-                  "#{custom_command} #{options} #{@file_path}"
+                  "#{custom_command} #{options} #{file}"
                 else
                   command(options)
                 end
 
           Puppet.debug("Archive extracting #{@file} in #{path}: #{cmd}")
-          File.chmod(0o644, @file) if opts[:uid] || opts[:gid]
-          Puppet::Util::Execution.execute(cmd, uid: opts[:uid], gid: opts[:gid], failonfail: true, squelch: false, combine: true)
+          File.chmod(0644, @file) if opts[:uid] || opts[:gid]
+          Puppet::Util::Execution.execute(cmd, :uid => opts[:uid], :gid => opts[:gid], :failonfail => true, :squelch => false, :combine => true)
         end
       end
 
@@ -69,40 +67,40 @@ module PuppetX
       def command(options)
         if Facter.value(:osfamily) == 'windows'
           opt = parse_flags('x -aoa', options, '7z')
-          "#{win_7zip} #{opt} #{@file_path}"
+          "#{win_7zip} #{opt} #{@file}"
         else
           case @file
-          when %r{\.tar$}
+          when /\.tar$/
             opt = parse_flags('xf', options, 'tar')
-            "tar #{opt} #{@file_path}"
-          when %r{(\.tgz|\.tar\.gz)$}
+            "tar #{opt} #{@file}"
+          when /(\.tgz|\.tar\.gz)$/
             if Facter.value(:osfamily) == 'Solaris'
               gunzip_opt = parse_flags('-dc', options, 'gunzip')
               tar_opt = parse_flags('xf', options, 'tar')
-              "gunzip #{gunzip_opt} #{@file_path} | tar #{tar_opt} -"
+              "gunzip #{gunzip_opt} #{@file} | tar #{tar_opt} -"
             else
               opt = parse_flags('xzf', options, 'tar')
-              "tar #{opt} #{@file_path}"
+              "tar #{opt} #{@file}"
             end
-          when %r{(\.tbz|\.tar\.bz2)$}
+          when /(\.tbz|\.tar\.bz2)$/
             if Facter.value(:osfamily) == 'Solaris'
               bunzip_opt = parse_flags('-dc', options, 'bunzip')
               tar_opt = parse_flags('xf', options, 'tar')
-              "bunzip2 #{bunzip_opt} #{@file_path} | tar #{tar_opt} -"
+              "bunzip2 #{bunzip_opt} #{@file} | tar #{tar_opt} -"
             else
               opt = parse_flags('xjf', options, 'tar')
-              "tar #{opt} #{@file_path}"
+              "tar #{opt} #{@file}"
             end
-          when %r{(\.txz|\.tar\.xz)$}
+          when /(\.txz|\.tar\.xz)$/
             unxz_opt = parse_flags('-dc', options, 'unxz')
             tar_opt = parse_flags('xf', options, 'tar')
-            "unxz #{unxz_opt} #{@file_path} | tar #{tar_opt} -"
-          when %r{\.gz$}
+            "unxz #{unxz_opt} #{@file} | tar #{tar_opt} -"
+          when /\.gz$/
             opt = parse_flags('-d', options, 'gunzip')
-            "gunzip #{opt} #{@file_path}"
-          when %r{(\.zip|\.war|\.jar)$}
+            "gunzip #{opt} #{@file}"
+          when /(\.zip|\.war|\.jar)$/
             opt = parse_flags('-o', options, 'zip')
-            "unzip #{opt} #{@file_path}"
+            "unzip #{opt} #{@file}"
           else
             raise NotImplementedError, "Unknown filetype: #{@file}"
           end
