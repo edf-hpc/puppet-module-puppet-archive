@@ -26,8 +26,8 @@ RSpec.describe wget_provider do
     context 'no extra properties specified' do
       let(:resource_properties) do
         {
-          name: name,
-          source: 'http://home.lan/example.zip'
+          :name => name,
+          :source => 'http://home.lan/example.zip'
         }
       end
 
@@ -40,9 +40,9 @@ RSpec.describe wget_provider do
     context 'username specified' do
       let(:resource_properties) do
         {
-          name: name,
-          source: 'http://home.lan/example.zip',
-          username: 'foo'
+          :name => name,
+          :source => 'http://home.lan/example.zip',
+          :username => 'foo',
         }
       end
 
@@ -55,9 +55,9 @@ RSpec.describe wget_provider do
     context 'password specified' do
       let(:resource_properties) do
         {
-          name: name,
-          source: 'http://home.lan/example.zip',
-          password: 'foo'
+          :name => name,
+          :source => 'http://home.lan/example.zip',
+          :password => 'foo',
         }
       end
 
@@ -70,9 +70,9 @@ RSpec.describe wget_provider do
     context 'cookie specified' do
       let(:resource_properties) do
         {
-          name: name,
-          source: 'http://home.lan/example.zip',
-          cookie: 'foo'
+          :name => name,
+          :source => 'http://home.lan/example.zip',
+          :cookie => 'foo',
         }
       end
 
@@ -85,64 +85,15 @@ RSpec.describe wget_provider do
     context 'proxy specified' do
       let(:resource_properties) do
         {
-          name: name,
-          source: 'http://home.lan/example.zip',
-          proxy_server: 'https://home.lan:8080'
+          :name => name,
+          :source => 'http://home.lan/example.zip',
+          :proxy_server => 'https://home.lan:8080',
         }
       end
 
       it 'calls wget with default options and header containing cookie' do
         expect(execution).to receive(:execute).with([default_options, '--https_proxy=https://home.lan:8080'].join(' '))
         provider.download(name)
-      end
-    end
-
-    context 'allow_insecure true' do
-      let(:resource_properties) do
-        {
-          name: name,
-          source: 'http://home.lan/example.zip',
-          allow_insecure: true
-        }
-      end
-
-      it 'calls wget with default options and --no-check-certificate' do
-        expect(execution).to receive(:execute).with([default_options, '--no-check-certificate'].join(' '))
-        provider.download(name)
-      end
-    end
-    describe '#checksum' do
-      subject { provider.checksum }
-      let(:url) { nil }
-      let(:resource_properties) do
-        {
-          name: name,
-          source: 'http://home.lan/example.zip'
-        }
-      end
-
-      before(:each) do
-        resource[:checksum_url] = url if url
-      end
-
-      context 'with a url' do
-        let(:wget_params) do
-          [
-            'wget',
-            '-qO-',
-            'http://example.com/checksum',
-            '--max-redirect=5'
-          ]
-        end
-
-        let(:url) { 'http://example.com/checksum' }
-        context 'responds with hash' do
-          let(:remote_hash) { 'a0c38e1aeb175201b0dacd65e2f37e187657050a' }
-          it do
-            expect(Puppet::Util::Execution).to receive(:execute).with(wget_params.join(' ')).and_return("a0c38e1aeb175201b0dacd65e2f37e187657050a README.md\n")
-            expect(provider.checksum).to eq('a0c38e1aeb175201b0dacd65e2f37e187657050a')
-          end
-        end
       end
     end
   end

@@ -1,10 +1,3 @@
-##2016/07/13 - Releasing 1.0.0
-
-* GH-176 Add Compatiblity layer for camptocamp/archive
-* GH-174 Add allow_insecure parameter
-* Numerous Rubocop and other modulesync changes
-* Drop support for ruby 1.8
-
 ##2016/03/18 - Releasing 0.5.1
 
 * GH-146 Set aws_cli_install default to false
@@ -13,14 +6,6 @@
 * open file in binary mode when writing files for windows download
 
 ##2016/03/10 - Releasing 0.5.0
-
-Release 0.5.x contains significant changes:
-
-* faraday, faraday_middleware no longer required.
-* ruby provider is the default for windows (using net::http).
-* archive gem_provider attribute deprecated.
-* archive::artifactory server, port, url_path attributes deprecated.
-* S3 bucket support (experimental).
 
 * GH-55 use net::http to stream files
 * Add additional documentation
@@ -85,12 +70,6 @@ Release 0.5.x contains significant changes:
 * More robust handling of sha512 checksums
 
 ##2015/4/23 - 0.3.0
-
-Release 0.3.x contains breaking changes
-
-* The parameter 7zip have been changed to seven_zip to conform to Puppet 4.x variable name requirements.
-* The namevar name have been changed to path to allow files with the same filename to exists in different filepath.
-* This project have been migrated to [voxpupuli](https://github.com/voxpupuli/puppet-archive), please adjust your repo git source.
 
 * Fix Puppet 4 compatability issues
 * Fix archive namevar to use path

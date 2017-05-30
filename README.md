@@ -4,7 +4,6 @@
 [![Puppet Forge downloads](https://img.shields.io/puppetforge/dt/puppet/archive.svg)](https://forge.puppetlabs.com/puppet/archive)
 [![Puppet Forge score](https://img.shields.io/puppetforge/f/puppet/archive.svg)](https://forge.puppetlabs.com/puppet/archive)
 [![Build Status](https://travis-ci.org/voxpupuli/puppet-archive.png)](https://travis-ci.org/voxpupuli/puppet-archive)
-[![Camptocamp compatible](https://img.shields.io/badge/camptocamp-compatible-orange.svg)](https://forge.puppet.com/camptocamp/archive)
 
 #### Table of Contents
 
@@ -13,13 +12,37 @@
 3. [Setup](#setup)
 4. [Usage](#usage)
    * [Example](#usage-example)
-   * [Puppet URL](#puppet-url)
    * [File permission](#file-permission)
    * [Network files](#network-files)
    * [Extract customization](#extract-customization)
    * [S3 Bucket](#s3-bucket)
 5. [Reference](#reference)
 6. [Development](#development)
+
+_*Warning*_:
+
+Release 0.5.x contains significant changes:
+
+* faraday, faraday_middleware no longer required.
+* ruby provider is the default for windows (using net::http).
+* archive gem_provider attribute deprecated.
+* archive::artifactory server, port, url_path attributes deprecated.
+* S3 bucket support (experimental).
+
+Release 0.3.x contains breaking changes
+
+* The parameter 7zip have been changed to seven_zip to conform to Puppet 4.x variable name requirements.
+* The namevar name have been changed to path to allow files with the same filename to exists in different filepath.
+* This project have been migrated to [voxpupuli](https://github.com/voxpupuli/puppet-archive), please adjust your repo git source.
+
+_*Experimental*_:
+
+The following define type/features are experimental and subject to change:
+
+* archive::artifactory
+* archive::go
+* archive::nexus
+* checksum_url (to support nexus files)
 
 ## Overview
 
@@ -38,8 +61,6 @@ cleanup. The benefits over existing modules such as
 * Automatic dependency to parent directory.
 * Support Windows file extraction via 7zip.
 * Able to cleanup archive files after extraction.
-
-This module is compatible with [camptocamp/archive](https://forge.puppet.com/camptocamp/archive). For this it provides compatibility shims.
 
 ## Setup
 
@@ -107,32 +128,6 @@ archive { '/tmp/test100k.db':
   source   => 'ftp://ftp.otenet.gr/test100k.db',
   username => 'speedtest',
   password => 'speedtest',
-}
-```
-
-### Puppet URL
-
-Below is an example of how to deploy a tar.gz to a local directory when it is served via the ```puppet:///``` style url which is not currently supported.
-
-```puppet
-$docs_filename = 'help.tar.gz'
-$docs_gz_path  = "/tmp/${docs_filename}"
-$homedir = '/home/myuser/'
-
-# First, deploy the archive to the local filesystem
-file {$docs_gz_path:
-  ensure => file,
-  source => "puppet:///modules/profile/${docs_filename}",
-}
-
-# Then expand the archive where you need it to go
-archive { $docs_gz_path:
-  path          => $docs_gz_path,
-  #cleanup       => true, # Do not use this argument with this workaround for idempotency reasons
-  extract       => true,
-  extract_path  => $homedir,
-  creates       => "${homedir}/help" #directory inside tgz
-  require       => [ File[$docs_gz_path] ],
 }
 ```
 
@@ -282,7 +277,6 @@ NOTE: Alternative s3 provider support can be implemented by overriding the [s3_d
 * `archive::artifactory`: archive wrapper for [JFrog Artifactory](http://www.jfrog.com/open-source/#os-arti) files with checksum.
 * `archive::go`: archive wrapper for [GO Continuous Delivery](http://www.go.cd/) files with checksum.
 * `archive::nexus`: archive wrapper for [Sonatype Nexus](http://www.sonatype.org/nexus/) files with checksum.
-* `archive::download`: archive wrapper and compatibility shim for [camptocamp/archive](https://forge.puppet.com/camptocamp/archive). This is considered private API, as it has to change with camptocamp/archive. For this reason it will remain undocumented, and removed when no longer needed. We suggest not using it directly. Instead please consider migrating to archive itself where possible.
 
 ### Resources
 
@@ -294,7 +288,6 @@ NOTE: Alternative s3 provider support can be implemented by overriding the [s3_d
 * `source`: archive file source, supports http|https|ftp|file|s3 uri.
 * `username`: username to download source file.
 * `password`: password to download source file.
-* `allow_insecure`: Ignore HTTPS certificate errors (true|false). Supported on `curl` and `wget` providers. (default: false)
 * `cookie`: archive file download cookie.
 * `checksum_type`: archive file checksum type (none|md5|sha1|sha2|sh256|sha384|sha512). (default: none)
 * `checksum`: archive file checksum (match checksum_type)
