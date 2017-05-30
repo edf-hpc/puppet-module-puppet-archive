@@ -1,4 +1,3 @@
----
 HOSTS:
   centos-66-x64:
     roles:
@@ -10,5 +9,3 @@ HOSTS:
     hypervisor: vagrant
 CONFIG:
   type: pe
-...
-# vim: syntax=yaml

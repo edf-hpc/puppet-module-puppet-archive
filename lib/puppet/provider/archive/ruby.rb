@@ -13,8 +13,8 @@ require 'securerandom'
 require 'tempfile'
 
 Puppet::Type.type(:archive).provide(:ruby) do
-  optional_commands aws: 'aws'
-  defaultfor feature: :microsoft_windows
+  optional_commands :aws => 'aws'
+  defaultfor :feature => :microsoft_windows
   attr_reader :archive_checksum
 
   def exists?
@@ -65,17 +65,17 @@ Puppet::Type.type(:archive).provide(:ruby) do
   end
 
   def checksum
-    resource[:checksum] || (remote_checksum if resource[:checksum_url])
+    resource[:checksum] || remote_checksum
   end
 
   def remote_checksum
     @remote_checksum ||= begin
       PuppetX::Bodeco::Util.content(
         resource[:checksum_url],
-        username: resource[:username],
-        password: resource[:password],
-        cookie: resource[:cookie]
-      )[%r{\b[\da-f]{32,128}\b}i]
+        :username => resource[:username],
+        :password => resource[:password],
+        :cookie => resource[:cookie]
+      )[/\b[\da-f]{32,128}\b/i] if resource[:checksum_url]
     end
   end
 
@@ -104,10 +104,10 @@ Puppet::Type.type(:archive).provide(:ruby) do
     raise(ArgumentError, 'missing archive extract_path') unless resource[:extract_path]
     PuppetX::Bodeco::Archive.new(archive_filepath).extract(
       resource[:extract_path],
-      custom_command: resource[:extract_command],
-      options: resource[:extract_flags],
-      uid: resource[:user],
-      gid: resource[:group]
+      :custom_command => resource[:extract_command],
+      :options => resource[:extract_flags],
+      :uid => resource[:user],
+      :gid => resource[:group]
     )
   end
 
@@ -121,12 +121,12 @@ Puppet::Type.type(:archive).provide(:ruby) do
     tempfile.close!
 
     case resource[:source]
-    when %r{^(http|ftp)}
+    when /^(http|ftp)/
       download(temppath)
-    when %r{^file}
+    when /^file/
       uri = URI(resource[:source])
       FileUtils.copy(Puppet::Util.uri_to_path(uri), temppath)
-    when %r{^s3}
+    when /^s3/
       s3_download(temppath)
     else
       raise(Puppet::Error, "Source file: #{resource[:source]} does not exists.") unless File.exist?(resource[:source])
@@ -144,7 +144,7 @@ Puppet::Type.type(:archive).provide(:ruby) do
   end
 
   def download(filepath)
-    PuppetX::Bodeco::Util.download(resource[:source], filepath, username: resource[:username], password: resource[:password], cookie: resource[:cookie], proxy_server: resource[:proxy_server], proxy_type: resource[:proxy_type])
+    PuppetX::Bodeco::Util.download(resource[:source], filepath, :username => resource[:username], :password => resource[:password], :cookie => resource[:cookie], :proxy_server => resource[:proxy_server], :proxy_type => resource[:proxy_type])
   end
 
   def s3_download(path)
@@ -160,7 +160,7 @@ Puppet::Type.type(:archive).provide(:ruby) do
 
   def optional_switch(value, option)
     if value
-      option.map { |flags| flags % value }
+      option.collect { |flags| flags % value }
     else
       []
     end

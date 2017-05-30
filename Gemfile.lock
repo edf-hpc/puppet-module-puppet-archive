@@ -1,29 +1,27 @@
 GIT
-  remote: https://github.com/puppetlabs/puppetlabs-strings.git
-  revision: 57a3bffc47463afa12fcf422444af6d7af80f5c9
+  remote: https://github.com/rodjek/puppet-lint.git
+  revision: eec92c19ccfbf558890124d4436bfe7d0e8879e5
   specs:
-    puppet-strings (0.4.0)
-      puppet (>= 3.7.0)
-      yard (~> 0.8)
+    puppet-lint (1.1.0)
 
 GIT
   remote: https://github.com/rodjek/rspec-puppet.git
-  revision: 79d5373dcbfa4cd56c863f9e9ffe8f3b5e02b8a0
+  revision: 9eb2c6ffc7f2dd56e2a72ac4966482848ad148ba
   specs:
-    rspec-puppet (2.4.0)
+    rspec-puppet (2.3.2)
       rspec
 
 GIT
   remote: https://github.com/voxpupuli/puppet-blacksmith.git
-  revision: ad887f17d1e9d2296318cce1e4337423330e81f7
+  revision: 4029c2622ee3e6c8c4ff303a61150e615dd2209f
   specs:
-    puppet-blacksmith (3.4.0)
+    puppet-blacksmith (3.3.1)
       puppet (>= 2.7.16)
-      rest-client (~> 1.8.0)
+      rest-client
 
 GIT
   remote: https://github.com/voxpupuli/voxpupuli-release-gem.git
-  revision: c87334a27617d04d1235011f2f503f660b5f2c6c
+  revision: 0624378af1253d73ec8ec387a608aa20ed471791
   specs:
     voxpupuli-release (0.3.0)
       puppet-blacksmith
@@ -34,26 +32,24 @@ GEM
   specs:
     CFPropertyList (2.2.8)
     addressable (2.4.0)
-    ast (2.3.0)
+    ast (2.2.0)
     aws-sdk (1.66.0)
       aws-sdk-v1 (= 1.66.0)
     aws-sdk-v1 (1.66.0)
       json (~> 1.4)
       nokogiri (>= 1.4.4)
     backports (3.6.8)
-    beaker (2.47.0)
+    beaker (2.37.0)
       aws-sdk (~> 1.57)
       beaker-answers (~> 0.0)
       beaker-hiera (~> 0.0)
-      beaker-hostgenerator
       beaker-pe (~> 0.0)
       docker-api
       fission (~> 0.4)
       fog (~> 1.25, < 1.35.0)
       fog-google (~> 0.0.9)
-      google-api-client (~> 0.8, < 0.9.5)
-      hocon (~> 1.0)
-      in-parallel (~> 0.1)
+      google-api-client (~> 0.8)
+      hocon (~> 0.1)
       inifile (~> 2.0)
       json (~> 1.8)
       mime-types (~> 2.99)
@@ -65,46 +61,42 @@ GEM
       rsync (~> 1.0.9)
       stringify-hash (~> 0.0)
       unf (~> 0.1)
-    beaker-answers (0.8.0)
-      hocon (~> 1.0)
+    beaker-answers (0.4.0)
       require_all (~> 1.3.2)
       stringify-hash (~> 0.0.0)
     beaker-hiera (0.1.1)
       stringify-hash (~> 0.0.0)
-    beaker-hostgenerator (0.7.2)
-      deep_merge (~> 1.0)
-      stringify-hash (~> 0.0.0)
-    beaker-pe (0.6.0)
+    beaker-pe (0.1.0)
       stringify-hash (~> 0.0.0)
     beaker-puppet_install_helper (0.4.4)
       beaker (~> 2.0)
-    beaker-rspec (5.6.0)
+    beaker-rspec (5.3.0)
       beaker (~> 2.0)
       rspec
       serverspec (~> 2)
       specinfra (~> 2)
     builder (3.2.2)
     coderay (1.1.1)
-    deep_merge (1.0.1)
     diff-lcs (1.2.5)
-    docker-api (1.29.0)
+    docker-api (1.26.2)
       excon (>= 0.38.0)
       json
-    domain_name (0.5.20160615)
+    domain_name (0.5.20160310)
       unf (>= 0.0.5, < 1.0.0)
-    ethon (0.9.0)
+    ethon (0.8.1)
       ffi (>= 1.3.0)
-    excon (0.51.0)
+    excon (0.48.0)
     facter (2.4.6)
       CFPropertyList (~> 2.2.6)
-    facterdb (0.3.5)
+    facterdb (0.3.1)
       facter
       jgrep
+      json
     faraday (0.9.2)
       multipart-post (>= 1.2, < 3)
     faraday_middleware (0.10.0)
       faraday (>= 0.7.4, < 0.10)
-    ffi (1.9.14)
+    ffi (1.9.10)
     fission (0.5.0)
       CFPropertyList (~> 2.2)
     fog (1.34.0)
@@ -134,18 +126,18 @@ GEM
     fog-atmos (0.1.0)
       fog-core
       fog-xml
-    fog-aws (0.9.4)
-      fog-core (~> 1.38)
+    fog-aws (0.9.1)
+      fog-core (~> 1.27)
       fog-json (~> 1.0)
       fog-xml (~> 0.1)
       ipaddress (~> 0.8)
-    fog-brightbox (0.11.0)
+    fog-brightbox (0.10.1)
       fog-core (~> 1.22)
       fog-json
       inflecto (~> 0.0.2)
-    fog-core (1.42.0)
+    fog-core (1.36.0)
       builder
-      excon (~> 0.49)
+      excon (~> 0.45)
       formatador (~> 0.2)
     fog-dynect (0.0.3)
       fog-core
@@ -185,7 +177,7 @@ GEM
     fog-serverlove (0.1.2)
       fog-core
       fog-json
-    fog-softlayer (1.1.3)
+    fog-softlayer (1.1.0)
       fog-core
       fog-json
     fog-storm_on_demand (0.1.1)
@@ -229,9 +221,9 @@ GEM
       multi_json (~> 1.11)
       os (~> 0.9)
       signet (~> 0.7)
-    guard (2.14.0)
+    guard (2.13.0)
       formatador (>= 0.2.4)
-      listen (>= 2.7, < 4.0)
+      listen (>= 2.7, <= 4.0)
       lumberjack (~> 1.0)
       nenv (~> 0.1)
       notiffany (~> 0.0)
@@ -241,29 +233,27 @@ GEM
     guard-rake (1.0.0)
       guard
       rake
-    hiera (3.2.0)
+    hiera (1.3.4)
       json_pure
     highline (1.7.8)
-    hocon (1.1.1)
+    hocon (0.9.5)
     http-cookie (1.0.2)
       domain_name (~> 0.5)
-    httpclient (2.8.0)
+    httpclient (2.7.1)
     hurley (0.2)
-    in-parallel (0.1.11)
     inflecto (0.0.2)
     inifile (2.0.2)
     ipaddress (0.8.3)
-    jgrep (1.4.1)
+    jgrep (1.4.0)
       json
     json (1.8.3)
-    json_pure (2.0.1)
-    jwt (1.5.4)
+    json_pure (1.8.3)
+    jwt (1.5.3)
     launchy (2.4.3)
       addressable (~> 2.3)
-    listen (3.1.5)
-      rb-fsevent (~> 0.9, >= 0.9.4)
-      rb-inotify (~> 0.9, >= 0.9.7)
-      ruby_dep (~> 1.2)
+    listen (3.0.6)
+      rb-fsevent (>= 0.9.3)
+      rb-inotify (>= 0.9.7)
     little-plugger (1.1.4)
     logging (2.1.0)
       little-plugger (~> 1.1)
@@ -279,12 +269,12 @@ GEM
       json
       spdx-licenses (~> 1.0)
     method_source (0.8.2)
-    mime-types (2.99.2)
-    mini_portile2 (2.1.0)
-    minitest (5.9.0)
+    mime-types (2.99.1)
+    mini_portile2 (2.0.0)
+    minitest (5.8.4)
     mocha (1.1.0)
       metaclass (~> 0.0.1)
-    multi_json (1.12.1)
+    multi_json (1.11.2)
     multipart-post (2.0.0)
     nenv (0.3.0)
     net-http-persistent (2.9.4)
@@ -294,42 +284,38 @@ GEM
     net-ssh (2.9.4)
     net-telnet (0.1.1)
     netrc (0.11.0)
-    nokogiri (1.6.8)
-      mini_portile2 (~> 2.1.0)
-      pkg-config (~> 1.1.7)
-    notiffany (0.1.0)
+    nokogiri (1.6.7.2)
+      mini_portile2 (~> 2.0.0.rc2)
+    notiffany (0.0.8)
       nenv (~> 0.1)
       shellany (~> 0.0)
     open_uri_redirections (0.2.1)
     os (0.9.6)
-    parser (2.3.1.2)
+    parser (2.3.0.6)
       ast (~> 2.2)
-    pkg-config (1.1.7)
     powerpack (0.1.1)
-    pry (0.10.4)
+    pry (0.10.3)
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
       slop (~> 3.4)
-    puppet (4.5.2)
-      CFPropertyList (~> 2.2.6)
-      facter (> 2.0, < 4)
-      hiera (>= 2.0, < 4)
+    puppet (3.8.6)
+      facter (> 1.6, < 3)
+      hiera (~> 1.0)
       json_pure
-    puppet-lint (1.1.0)
-    puppet-lint-absolute_classname-check (0.2.4)
-      puppet-lint (>= 1.0, < 3.0)
-    puppet-lint-classes_and_types_beginning_with_digits-check (0.1.2)
-      puppet-lint (>= 1.0, < 3.0)
-    puppet-lint-leading_zero-check (0.1.1)
-      puppet-lint (>= 1.0, < 3.0)
-    puppet-lint-trailing_comma-check (0.3.2)
-      puppet-lint (>= 1.0, < 3.0)
-    puppet-lint-unquoted_string-check (0.3.0)
-      puppet-lint (>= 1.0, < 3.0)
+    puppet-lint-absolute_classname-check (0.1.3)
+      puppet-lint (~> 1.0)
+    puppet-lint-classes_and_types_beginning_with_digits-check (0.1.0)
+      puppet-lint (~> 1.0)
+    puppet-lint-leading_zero-check (0.1.0)
+      puppet-lint (~> 1.0)
+    puppet-lint-trailing_comma-check (0.3.1)
+      puppet-lint (~> 1.0)
+    puppet-lint-unquoted_string-check (0.2.5)
+      puppet-lint (~> 1.0)
     puppet-lint-variable_contains_upcase (1.0.0)
       puppet-lint (~> 1.0)
-    puppet-lint-version_comparison-check (0.2.1)
-      puppet-lint (>= 1.0, < 3.0)
+    puppet-lint-version_comparison-check (0.1.2)
+      puppet-lint (~> 1.0)
     puppet-syntax (2.1.0)
       rake
     puppetlabs_spec_helper (1.1.1)
@@ -342,7 +328,7 @@ GEM
       json
       websocket (~> 1.0)
     rainbow (2.1.0)
-    rake (11.2.2)
+    rake (10.5.0)
     rb-fsevent (0.9.7)
     rb-inotify (0.9.7)
       ffi (>= 0.5.0)
@@ -358,60 +344,58 @@ GEM
       mime-types (>= 1.16, < 3.0)
       netrc (~> 0.7)
     retriable (2.1.0)
-    rspec (3.5.0)
-      rspec-core (~> 3.5.0)
-      rspec-expectations (~> 3.5.0)
-      rspec-mocks (~> 3.5.0)
-    rspec-core (3.5.1)
-      rspec-support (~> 3.5.0)
-    rspec-expectations (3.5.0)
+    rspec (3.4.0)
+      rspec-core (~> 3.4.0)
+      rspec-expectations (~> 3.4.0)
+      rspec-mocks (~> 3.4.0)
+    rspec-core (3.4.4)
+      rspec-support (~> 3.4.0)
+    rspec-expectations (3.4.0)
       diff-lcs (>= 1.2.0, < 2.0)
-      rspec-support (~> 3.5.0)
+      rspec-support (~> 3.4.0)
     rspec-its (1.2.0)
       rspec-core (>= 3.0.0)
       rspec-expectations (>= 3.0.0)
-    rspec-mocks (3.5.0)
+    rspec-mocks (3.4.1)
       diff-lcs (>= 1.2.0, < 2.0)
-      rspec-support (~> 3.5.0)
-    rspec-puppet-facts (1.6.1)
+      rspec-support (~> 3.4.0)
+    rspec-puppet-facts (1.4.1)
       facter
       facterdb (>= 0.3.0)
       json
       mcollective-client
       puppet
     rspec-puppet-utils (2.2.1)
-    rspec-support (3.5.0)
+    rspec-support (3.4.1)
     rsync (1.0.9)
-    rubocop (0.41.2)
-      parser (>= 2.3.1.1, < 3.0)
+    rubocop (0.37.2)
+      parser (>= 2.3.0.4, < 3.0)
       powerpack (~> 0.1)
       rainbow (>= 1.99.1, < 3.0)
       ruby-progressbar (~> 1.7)
-      unicode-display_width (~> 1.0, >= 1.0.1)
-    rubocop-rspec (1.5.0)
-      rubocop (>= 0.40.0)
-    ruby-progressbar (1.8.1)
-    ruby_dep (1.3.1)
-    serverspec (2.36.0)
+      unicode-display_width (~> 0.3)
+    ruby-progressbar (1.7.5)
+    serverspec (2.31.0)
       multi_json
       rspec (~> 3.0)
       rspec-its
       specinfra (~> 2.53)
     sfl (2.2)
     shellany (0.0.1)
-    signet (0.7.3)
+    signet (0.7.2)
       addressable (~> 2.3)
       faraday (~> 0.9)
       jwt (~> 1.5)
       multi_json (~> 1.10)
     slop (3.6.0)
-    spdx-licenses (1.1.0)
-    specinfra (2.59.6)
+    spdx-licenses (1.0.0)
+      json
+    specinfra (2.53.1)
       net-scp
-      net-ssh (>= 2.7, < 4.0)
+      net-ssh (>= 2.7, < 3.1)
       net-telnet
       sfl
-    stomp (1.4.1)
+    stomp (1.3.5)
     stringify-hash (0.0.2)
     systemu (2.6.5)
     thor (0.19.1)
@@ -433,21 +417,22 @@ GEM
     unf (0.1.4)
       unf_ext
     unf_ext (0.0.7.2)
-    unicode-display_width (1.1.0)
-    websocket (1.2.3)
-    yard (0.9.0)
+    unicode-display_width (0.3.1)
+    websocket (1.2.2)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
+  beaker
   beaker-puppet_install_helper
   beaker-rspec
   facter
   guard-rake
   metadata-json-lint
-  puppet (~> 4.0)
+  puppet (~> 3.0)
   puppet-blacksmith!
+  puppet-lint!
   puppet-lint-absolute_classname-check
   puppet-lint-classes_and_types_beginning_with_digits-check
   puppet-lint-leading_zero-check
@@ -455,15 +440,13 @@ DEPENDENCIES
   puppet-lint-unquoted_string-check
   puppet-lint-variable_contains_upcase
   puppet-lint-version_comparison-check
-  puppet-strings!
   puppetlabs_spec_helper
+  rake (< 11)
+  rspec
   rspec-puppet!
   rspec-puppet-facts
   rspec-puppet-utils
-  rubocop-rspec (~> 1.5)
+  rubocop (= 0.37.2)
   travis
   travis-lint
   voxpupuli-release!
-
-BUNDLED WITH
-   1.12.5

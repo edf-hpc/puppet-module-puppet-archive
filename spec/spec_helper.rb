@@ -1,8 +1,6 @@
 require 'puppetlabs_spec_helper/module_spec_helper'
 require 'rspec-puppet-utils'
 require 'rspec/mocks'
-require 'rspec-puppet-facts'
-include RspecPuppetFacts
 
 #
 # Require all support files
